@@ -3,7 +3,7 @@ import {createBrowserRouter,RouterProvider} from "react-router-dom";
 import Signup from '../pages/signup';
 import Signin from "../pages/signin";
 import LandingPage from "../pages/landingpage";
-
+import DashBoard from "../pages/dashboard/index";
 
 
 const router = createBrowserRouter([
@@ -19,5 +19,9 @@ const router = createBrowserRouter([
     path: "/signin",
     element: <Signin />,
   },
+  {
+    path: "/dashboard",
+    element: <DashBoard/>
+  }
 ]);
 export default router;
