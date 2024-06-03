@@ -9,8 +9,8 @@ const SignupForm: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      console.log(process.env.VITE_API_ENDPOINT , "this is the env")
-      const response = await fetch(`${import.meta.env.SERVER_ENDPOINT}/users`, {
+      console.log(import.meta.env.VITE_API_ENDPOINT , "this is the env")
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({name: userName , email: userEmail , password: userPassword}),
