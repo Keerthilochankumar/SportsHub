@@ -10,21 +10,33 @@ const SignupForm: React.FC = () => {
     event.preventDefault();
     try {
       console.log(import.meta.env.VITE_API_ENDPOINT , "this is the env")
+      const data = {
+        name : userName,
+        email: userEmail,
+        password: userPassword
+      }
+      console.log(JSON.stringify(data),"data");
+      if(userEmail!=="" && userName!=="" && userPassword!==""){
       const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({name: userName , email: userEmail , password: userPassword}),
+        body: JSON.stringify(data)
       });
       console.log(response , "response")
       if (!response.ok) {
-        throw new Error('Sign-up failed');
+          if(response.status === 422){
+            toast.info("user already registered please login in")
+          }
+          else{
+            throw new Error('Sign-up failed');
+          }
       }
       console.log('Sign-up successful');
       toast.success("signed in successful");
+    }
      
     } catch (error) {
-      console.error('Sign-up failed:', error);
-      toast.error("error while signing in");
+        console.log(error);
     }
   };
 
