@@ -1,6 +1,7 @@
 import React from 'react'
 import TopBar from './components/TopBar'
 import LiveGames from './components/LiveGames'
+import Articles from './components/Article'
 
 const DashBoard: React.FC = () => {
   return (
@@ -8,6 +9,7 @@ const DashBoard: React.FC = () => {
         <div className="flex flex-col">
         <TopBar/>
         <LiveGames/>
+        <Articles/>
         </div>
     </div>
   )
