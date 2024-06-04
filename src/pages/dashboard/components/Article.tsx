@@ -51,7 +51,7 @@ const ArticleDetailsPopup: React.FC<{ article: Article; onClose: () => void }> =
   );
 };
 
-const Articles: React.FC = () => {
+const Articles: React.FC<{ sport: string }> = ({ sport }) => {
   const [articles, setArticles] = useState<Article[] | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
 
@@ -85,11 +85,19 @@ const Articles: React.FC = () => {
     fetchArticles();
   }, []);
 
+  const filteredArticles = sport !== 'All News'
+    ? articles?.filter(article => article.sport.name === sport)
+    : articles;
+
+  useEffect(()=>{
+    console.log(filteredArticles ,"filtered articless")
+    console.log(sport ,"selected tab")
+  },[filteredArticles])
+
   return (
     <div className="flex flex-col">
-      <div className="mt-3">Articles</div>
-      <div className="w-full mt-5">
-        {articles?.map((article, index) => (
+      <div className="w-full mt-2">
+        {filteredArticles?.map((article, index) => (
           <ArticleComponent
             article={article}
             key={index}
