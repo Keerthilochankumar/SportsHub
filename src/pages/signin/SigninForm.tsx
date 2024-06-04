@@ -17,12 +17,14 @@ const SigninForm: React.FC = () => {
         password: password,
       }
       console.log(JSON.stringify(data),"data");
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/users`, {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/users/sign_in`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
       console.log(response , "response")
+      const responseData = await response.json();
+      localStorage.setItem('token', responseData.auth_token);
       if (!response.ok) {
           if(response.status === 422){
             toast.info("user already registered please login in")

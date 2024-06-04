@@ -24,6 +24,8 @@ const SignupForm: React.FC = () => {
         body: JSON.stringify(data)
       });
       console.log(response , "response")
+      const responseData = await response.json();
+      localStorage.setItem('token', responseData.auth_token);
       if (!response.ok) {
           if(response.status === 422){
             toast.info("user already registered please login in")
