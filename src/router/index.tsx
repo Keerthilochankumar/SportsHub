@@ -4,13 +4,10 @@ import Signup from '../pages/signup';
 import Signin from "../pages/signin";
 import LandingPage from "../pages/landingpage";
 import DashBoard from "../pages/dashboard/index";
+import ProtectedRoute from "./ProtectedRoute";
 
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LandingPage />,
-  },
   {
     path: "/signup",
     element: <Signup />,
@@ -21,7 +18,14 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashBoard/>
-  }
+    element: <ProtectedRoute>
+                <DashBoard />
+              </ProtectedRoute>
+             
+  },
+   {
+    path: "/",
+    element:<DashBoard />
+   }
 ]);
 export default router;

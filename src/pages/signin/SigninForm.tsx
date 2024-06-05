@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { API_ENDPOINT } from '../../config/constants';
 import { Button } from '@headlessui/react';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 const SigninForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -99,6 +99,8 @@ const SigninForm: React.FC = () => {
                 </a>
               </p>
             </form>
+            <Link to="/"> Continue Without Login</Link>
+            
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import { Dialog } from '@headlessui/react';
 import React, { useEffect, useState } from 'react'
 import { BiLogOut } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
+import { toast } from 'react-toastify';
 
 type Sport = {
   id: number;
@@ -172,6 +173,20 @@ const Preferences: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     console.log(selectedSports);
   }, [selectedSports]);
 
+  const handleSumbit = async () => {
+    const temp = {
+      preferences: Object.keys(selectedSports).filter((key: string) => selectedSports[Number(key)])
+    }
+    const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/user/preferences`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' , 'Authorization': `${localStorage.getItem('token')}`},
+      body: JSON.stringify(temp)
+    });
+    if(response.ok){
+      toast.success("Preferences updated successfully");
+      onClose();
+    }
+  }
   return (
     <Dialog open={true} onClose={onClose} className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="fixed inset-0 bg-black bg-opacity-50" onClick={onClose}></div>
@@ -203,6 +218,9 @@ const Preferences: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </label>
             </div>
           ))}
+        </div>
+        <div className="my-4 flex mx-auto justify-center border-2 border-black rounded-lg">
+        <button onClick={handleSumbit}>Submit</button>
         </div>
       </div>
     </Dialog>
