@@ -1,3 +1,4 @@
+
 What is the SportsHub?
 The Sports News and Scores Dashboard is a web application providing users with up-to-date sports news articles and live scores. It allows users to stay informed about their favourite sports, read news articles, and track live match scores, all in one place. Additionally, users can personalize their dashboard by selecting their favourite sports or teams to receive tailored news and score updates.
 
@@ -64,4 +65,10 @@ Users should be able to choose specific teams they are interested in and want to
 Filtering Based on User Preferences:
 When a user is logged in, the application should filter news articles based on their selected preferences.
 Only articles related to the chosen sports and teams should be displayed to the user.
-
+![s-1](https://github.com/Keerthilochankumar/SportsHub/assets/121881902/58dfee2a-be52-4850-969e-d45a8af44ec3)
+![s-5](https://github.com/Keerthilochankumar/SportsHub/assets/121881902/8953fdd8-38ea-43c3-9a0d-75c2542733eb)
+![s-6](https://github.com/Keerthilochankumar/SportsHub/assets/121881902/212aec09-4ee0-422a-8f09-8fb66c184a06)
+![s-4](https://github.com/Keerthilochankumar/SportsHub/assets/121881902/f00bff23-b780-4344-bb5a-f3d6d1e4ec1d)
+![s-3](https://github.com/Keerthilochankumar/SportsHub/assets/121881902/d2e08b4d-a3fa-4493-ae5b-672fc346e938)
+![s-2](https://github.com/Keerthilochankumar/SportsHub/assets/121881902/c819d050-41e0-474c-b848-21215d28fed0)
+![s-7](https://github.com/Keerthilochankumar/SportsHub/assets/121881902/deb98784-656e-4386-b65b-687a41da1ed0)
