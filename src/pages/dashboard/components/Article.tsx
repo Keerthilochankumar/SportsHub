@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Dialog } from '@headlessui/react';
-import { API_ENDPOINT } from '../../../config/constants';
-
 
 type Article = {
   id: number;
@@ -56,9 +54,9 @@ const ArticleDetailsPopup: React.FC<{ article: Article; onClose: () => void }> =
 const Articles: React.FC<{ sport: string }> = ({ sport }) => {
   const [articles, setArticles] = useState<Article[] | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
-  const [preferencesData, setPreferencesData] = useState<string[]>([]);
+  const [preferencesData, setPreferencesData] = useState<{ [key: string]: boolean }>({});
   const [filteredArticles, setFilteredArticles] = useState<Article[] | null>(null);
-
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const fetchArticles = async () => {
     try {
@@ -93,9 +91,7 @@ const Articles: React.FC<{ sport: string }> = ({ sport }) => {
         headers: { 'Content-Type': 'application/json', 'Authorization': `${localStorage.getItem('token')}` }
       });
       const preferences = await response.json();
-      const preferencesValues: string[] = Object.values(preferences.preferences);
-      setPreferencesData(preferencesValues);
-      console.log(preferencesData, "preferences data")
+      setPreferencesData(preferences.preferences);
       if (response.ok) {
         console.log("Preferences updated successfully");
       }
@@ -107,34 +103,29 @@ const Articles: React.FC<{ sport: string }> = ({ sport }) => {
   useEffect(() => {
     fetchArticles();
     handlePreferences();
+    setLoggedIn(!!localStorage.getItem('token'));
   }, []);
 
-  // const filteredArticles = sport !== 'All News'
-  //   ? articles?.filter(article => article.sport.name === sport)
-  //   : articles;
-  const handleFilteration = () => {
-    // const afterFiltered = (sport === 'All News' && Object.keys(preferencesData).length !== 0) ?
-    // articles?.filter(article => preferencesData.includes(article.sport.name)) : articles && (sport !== 'All News' ? articles?.filter(article => article.sport.name === sport) : preferencesData);
-    // setFilteredArticles(afterFiltered as Article[]);
-    if(sport === 'All News' && preferencesData.length !== 0){
-      setFilteredArticles(articles?.filter(article => preferencesData.includes(article.sport.name)) as Article[]);
-    }else if(sport === 'All News' && preferencesData.length === 0){
-      setFilteredArticles(articles as Article[]);
-    }else{
-      setFilteredArticles(articles?.filter(article => article.sport.name === sport) as Article[]);
+  useEffect(() => {
+    if (loggedIn) {
+      if (Object.keys(preferencesData).length !== 0) {
+        const filtered = articles?.filter(article => preferencesData[article.sport.name]);
+        setFilteredArticles(filtered || []);
+      } else {
+        setFilteredArticles(articles || []);
+      }
+    } else {
+      setFilteredArticles(articles);
     }
-  }
-  useEffect(()=>{
-    handleFilteration();
-  },[sport, preferencesData, articles])
+  }, [preferencesData, articles, loggedIn]);
 
   return (
     <div className="flex flex-col">
       <div className="w-full mt-2">
-        {filteredArticles?.map((article, index) => (
+        {filteredArticles?.map((article) => (
           <ArticleComponent
-            article={article as unknown as Article}
-            key={index}
+            article={article}
+            key={article.id} // Use a unique identifier like article.id
             onClick={() => fetchArticleDetails(article.id)}
           />
         ))}
