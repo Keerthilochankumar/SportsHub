@@ -17,7 +17,7 @@ const SigninForm: React.FC = () => {
         password: password,
       }
       console.log(JSON.stringify(data),"data");
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/users/sign_in`, {
+      const response = await fetch(`${API_ENDPOINT}/users/sign_in`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -94,7 +94,7 @@ const SigninForm: React.FC = () => {
               </Button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 have an account ?{' '}
-                <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                <a href="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                   Sign Up
                 </a>
               </p>

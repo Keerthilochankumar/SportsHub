@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { API_ENDPOINT } from '../../../config/constants';
 
 type GameProps = {
   data: {
@@ -26,7 +27,7 @@ const Game: React.FC<GameProps> = ({ data }) => {
     
     const fetchScore = async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/matches/${data.id}`, {
+            const response = await fetch(`${API_ENDPOINT}/matches/${data.id}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             });

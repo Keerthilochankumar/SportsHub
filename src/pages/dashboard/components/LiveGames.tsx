@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import Game from './Game';
+import { API_ENDPOINT } from '../../../config/constants';
 
 type Match = {
   id: number;
@@ -50,7 +51,7 @@ const LiveGames = () => {
 
   const fetchMatches = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/matches`, {
+      const response = await fetch(`${API_ENDPOINT}/matches`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -63,7 +64,7 @@ const LiveGames = () => {
 
   const fetchGameDetails = async (id: number) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/matches/${id}`, {
+      const response = await fetch(`${API_ENDPOINT}/matches/${id}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });

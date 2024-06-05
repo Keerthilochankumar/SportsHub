@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Button } from '@headlessui/react'
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINT } from '../../config/constants';
 const SignupForm: React.FC = () => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -18,7 +19,7 @@ const SignupForm: React.FC = () => {
       }
       console.log(JSON.stringify(data),"data");
       if(userEmail!=="" && userName!=="" && userPassword!==""){
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/users`, {
+      const response = await fetch(`${API_ENDPOINT}/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -102,9 +103,6 @@ const SignupForm: React.FC = () => {
                   <div className="flex items-center h-5">
                   </div>
                 </div>
-                <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
-                  Forgot password?
-                </a>
               </div>
               <Button
                 type="submit"
@@ -114,7 +112,7 @@ const SignupForm: React.FC = () => {
               </Button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 have an account ?{' '}
-                <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                <a href="/signin" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                   Sign In
                 </a>
               </p>

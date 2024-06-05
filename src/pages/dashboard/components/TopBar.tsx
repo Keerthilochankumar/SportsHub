@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { BiLogOut } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 import { toast } from 'react-toastify';
+import { API_ENDPOINT } from '../../../config/constants';
 
 type Sport = {
   id: number;
@@ -177,7 +178,7 @@ const Preferences: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const temp = {
       preferences: Object.keys(selectedSports).filter((key: string) => selectedSports[Number(key)])
     }
-    const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/user/preferences`, {
+    const response = await fetch(`${API_ENDPOINT}/user/preferences`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' , 'Authorization': `${localStorage.getItem('token')}`},
       body: JSON.stringify(temp)

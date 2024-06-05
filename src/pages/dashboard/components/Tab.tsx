@@ -1,13 +1,14 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import Articles from './Article';
 import { useEffect, useState } from 'react';
+import { API_ENDPOINT } from '../../../config/constants';
 
 export default function Example() {
     const [selectedTab, setSelectedTab] = useState<string>('All News');
     const [sportsData, setSportsData] = useState<any[]>([]);
     const handleSportsFetch = async () => {
         try {
-          const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/sports`, {
+          const response = await fetch(`${API_ENDPOINT}/sports`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
           });

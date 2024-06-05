@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Dialog } from '@headlessui/react';
+import { API_ENDPOINT } from '../../../config/constants';
+
 
 type Article = {
   id: number;
@@ -57,7 +59,7 @@ const Articles: React.FC<{ sport: string }> = ({ sport }) => {
 
   const fetchArticles = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/articles`, {
+      const response = await fetch(`${API_ENDPOINT}/articles`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -70,7 +72,7 @@ const Articles: React.FC<{ sport: string }> = ({ sport }) => {
 
   const fetchArticleDetails = async (id: number) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/articles/${id}`, {
+      const response = await fetch(`${API_ENDPOINT}/articles/${id}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
