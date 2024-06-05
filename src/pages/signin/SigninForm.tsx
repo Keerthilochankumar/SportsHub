@@ -17,7 +17,7 @@ const SigninForm: React.FC = () => {
         password: password,
       }
       console.log(JSON.stringify(data),"data");
-      const response = await fetch(`${API_ENDPOINT}/users/sign_in`, {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/users/sign_in`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

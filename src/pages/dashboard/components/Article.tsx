@@ -56,10 +56,13 @@ const ArticleDetailsPopup: React.FC<{ article: Article; onClose: () => void }> =
 const Articles: React.FC<{ sport: string }> = ({ sport }) => {
   const [articles, setArticles] = useState<Article[] | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const [preferencesData, setPreferencesData] = useState<string[]>([]);
+  const [filteredArticles, setFilteredArticles] = useState<Article[] | null>(null);
+
 
   const fetchArticles = async () => {
     try {
-      const response = await fetch(`${API_ENDPOINT}/articles`, {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/articles`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -72,7 +75,7 @@ const Articles: React.FC<{ sport: string }> = ({ sport }) => {
 
   const fetchArticleDetails = async (id: number) => {
     try {
-      const response = await fetch(`${API_ENDPOINT}/articles/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/articles/${id}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -83,25 +86,54 @@ const Articles: React.FC<{ sport: string }> = ({ sport }) => {
     }
   };
 
+  const handlePreferences = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/user/preferences`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `${localStorage.getItem('token')}` }
+      });
+      const preferences = await response.json();
+      const preferencesValues: string[] = Object.values(preferences.preferences);
+      setPreferencesData(preferencesValues);
+      console.log(preferencesData, "preferences data")
+      if (response.ok) {
+        console.log("Preferences updated successfully");
+      }
+    } catch (error) {
+      console.error("Error occurred when updating preferences:", error);
+    }
+  }
+
   useEffect(() => {
     fetchArticles();
+    handlePreferences();
   }, []);
 
-  const filteredArticles = sport !== 'All News'
-    ? articles?.filter(article => article.sport.name === sport)
-    : articles;
-
+  // const filteredArticles = sport !== 'All News'
+  //   ? articles?.filter(article => article.sport.name === sport)
+  //   : articles;
+  const handleFilteration = () => {
+    // const afterFiltered = (sport === 'All News' && Object.keys(preferencesData).length !== 0) ?
+    // articles?.filter(article => preferencesData.includes(article.sport.name)) : articles && (sport !== 'All News' ? articles?.filter(article => article.sport.name === sport) : preferencesData);
+    // setFilteredArticles(afterFiltered as Article[]);
+    if(sport === 'All News' && preferencesData.length !== 0){
+      setFilteredArticles(articles?.filter(article => preferencesData.includes(article.sport.name)) as Article[]);
+    }else if(sport === 'All News' && preferencesData.length === 0){
+      setFilteredArticles(articles as Article[]);
+    }else{
+      setFilteredArticles(articles?.filter(article => article.sport.name === sport) as Article[]);
+    }
+  }
   useEffect(()=>{
-    console.log(filteredArticles ,"filtered articless")
-    console.log(sport ,"selected tab")
-  },[filteredArticles])
+    handleFilteration();
+  },[sport, preferencesData, articles])
 
   return (
     <div className="flex flex-col">
       <div className="w-full mt-2">
         {filteredArticles?.map((article, index) => (
           <ArticleComponent
-            article={article}
+            article={article as unknown as Article}
             key={index}
             onClick={() => fetchArticleDetails(article.id)}
           />

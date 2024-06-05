@@ -9,6 +9,10 @@ import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
+    path: "/",
+    element: <LandingPage />,
+  },
+  {
     path: "/signup",
     element: <Signup />,
   },
@@ -24,7 +28,7 @@ const router = createBrowserRouter([
              
   },
    {
-    path: "/",
+    path: "/dashboard_",
     element:<DashBoard />
    }
 ]);

@@ -27,7 +27,7 @@ const Game: React.FC<GameProps> = ({ data }) => {
     
     const fetchScore = async () => {
         try {
-            const response = await fetch(`${API_ENDPOINT}/matches/${data.id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/matches/${data.id}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -44,19 +44,20 @@ const Game: React.FC<GameProps> = ({ data }) => {
     }, [data]); // Fetch scores when 'data' changes
 
     return (
-        <div className="game-card h-full w-[300px] flex flex-col border-2 border-black m-2">
-            <div className="text-lg">
+        <div className="game-card h-full w-[350px] flex flex-col border-2 border-black m-2 p-2">
+            <div className="text-lg font-bold mb-2">
                 {data.sportName}
             </div>
-            <div className="text-sm">
+            <div className="text-sm mb-2">
                 {data.name}, {data.location}
             </div>
             {score && (
-                <div>
+                <div className="flex flex-col">
                     {data.teams.map((team, idx) => {
                         return (
-                            <div key={idx}>
-                                {team.name}:{score[team.name]}
+                            <div key={idx} className="flex justify-between">
+                                <span className="font-bold">{team.name}</span>
+                                <span>{score[team.name]}</span>
                             </div>
                         ); 
                     })}

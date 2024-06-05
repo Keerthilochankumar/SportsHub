@@ -82,7 +82,7 @@ const LiveGames = () => {
   return (
     <div className="flex flex-col">
       <div className="mt-3">Live Games</div>
-      <div className="w-full overflow-x-scroll max-h-[200px] mt-5 border-2 border-black flex space-x-5 p-2">
+      <div className="w-full overflow-x-scroll max-h-[200px] mt-5 border-2 border-black flex space-x-5 p-4">
         {matches?.map((match, index) => (
           <div className="flex mr-7 cursor-pointer" key={index} onClick={() => fetchGameDetails(match.id)}>
             <Game data={match} />

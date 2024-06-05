@@ -39,130 +39,6 @@ const Preferences: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     }
   ];
 
-  const teams = [
-    {
-      "id": 7,
-      "name": "Thunderbolts",
-      "plays": "Basketball"
-    },
-    {
-      "id": 8,
-      "name": "Dragonslayers",
-      "plays": "Basketball"
-    },
-    {
-      "id": 9,
-      "name": "Phoenix Rising",
-      "plays": "Basketball"
-    },
-    {
-      "id": 10,
-      "name": "Avalanche",
-      "plays": "Basketball"
-    },
-    {
-      "id": 11,
-      "name": "Titans",
-      "plays": "American Football"
-    },
-    {
-      "id": 12,
-      "name": "Vortex Vipers",
-      "plays": "American Football"
-    },
-    {
-      "id": 13,
-      "name": "Spectral Shadows",
-      "plays": "American Football"
-    },
-    {
-      "id": 14,
-      "name": "Blitzkrieg",
-      "plays": "American Football"
-    },
-    {
-      "id": 15,
-      "name": "Fury United",
-      "plays": "Rugby"
-    },
-    {
-      "id": 16,
-      "name": "Lightning Strikes",
-      "plays": "Rugby"
-    },
-    {
-      "id": 17,
-      "name": "Serpents of Fire",
-      "plays": "Rugby"
-    },
-    {
-      "id": 19,
-      "name": "Galaxy Warriors",
-      "plays": "Rugby"
-    },
-    {
-      "id": 20,
-      "name": "Stormbreakers",
-      "plays": "Field Hockey"
-    },
-    {
-      "id": 21,
-      "name": "Enigma Enforcers",
-      "plays": "Field Hockey"
-    },
-    {
-      "id": 22,
-      "name": "Blaze Squadron",
-      "plays": "Field Hockey"
-    },
-    {
-      "id": 23,
-      "name": "Phantom Phantoms",
-      "plays": "Field Hockey"
-    },
-    {
-      "id": 24,
-      "name": "Celestial Chargers",
-      "plays": "Table Tennis"
-    },
-    {
-      "id": 25,
-      "name": "Rebel Renegades",
-      "plays": "Table Tennis"
-    },
-    {
-      "id": 26,
-      "name": "Inferno Ignitors",
-      "plays": "Table Tennis"
-    },
-    {
-      "id": 27,
-      "name": "Stealth Strikers",
-      "plays": "Table Tennis"
-    },
-    {
-      "id": 28,
-      "name": "Nova Knights",
-      "plays": "Cricket"
-    },
-    {
-      "id": 29,
-      "name": "Crimson Crushers",
-      "plays": "Cricket"
-    },
-    {
-      "id": 30,
-      "name": "Rapid Raptors",
-      "plays": "Cricket"
-    },
-    {
-      "id": 31,
-      "name": "Shadow Assassins",
-      "plays": "Cricket"
-    }
-  ];
-
-
   const handleCheckboxChange = (id: number) => {
     setSelectedSports((prevSelectedSports) => ({
       ...prevSelectedSports,
@@ -175,14 +51,22 @@ const Preferences: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   }, [selectedSports]);
 
   const handleSumbit = async () => {
+  const selectedIds = Object.keys(selectedSports).filter((key) => selectedSports[Number(key)]);
+    const selectedNames = selectedIds.map((id) => {
+      const sport = sports.find((s) => s.id === Number(id));
+      return sport ? sport.name : null;
+    }).filter((name) => name !== null);
+
     const temp = {
-      preferences: Object.keys(selectedSports).filter((key: string) => selectedSports[Number(key)])
-    }
+      preferences: selectedNames
+    };
+    console.log(temp);
     const response = await fetch(`${API_ENDPOINT}/user/preferences`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' , 'Authorization': `${localStorage.getItem('token')}`},
       body: JSON.stringify(temp)
     });
+    console.log(response);
     if(response.ok){
       toast.success("Preferences updated successfully");
       onClose();
@@ -196,18 +80,6 @@ const Preferences: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <h2 className="text-xl mb-2">Preferences</h2>
         <div className="flex flex-col">
           {sports.map((sport) => (
-            <div key={sport.id} className="flex justify-between items-center p-2 border-b-2 border-black">
-              <label>
-                <input 
-                  type="checkbox" 
-                  checked={selectedSports[sport.id] || false}
-                  onChange={() => handleCheckboxChange(sport.id)} 
-                />
-                {sport.name}
-              </label>
-            </div>
-          ))}
-          {teams.map((sport) => (
             <div key={sport.id} className="flex justify-between items-center p-2 border-b-2 border-black">
               <label>
                 <input 
